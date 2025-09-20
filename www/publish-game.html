@@ -23,7 +23,7 @@
             </div>
             <div class="input-box">
                 <i class="fas fa-image"></i>
-                <input type="file" id="logo" accept="images/*">
+                <input type="file" id="logo" >
             </div>
             <div class="input-box">
                 <i class="fas fa-images"></i>
@@ -46,7 +46,7 @@
         </div>
     </main>
 
-<script src="js/config.js"></script>
+<script src="js/config.js"></script >
 <script src="js/script.js"></script>
 <script>
     var accessToken = localStorage.getItem("accessToken")
@@ -81,6 +81,7 @@
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             if (data.status == false) {alert(data.message)}
             else {history.back()}
         })

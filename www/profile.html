@@ -93,10 +93,7 @@
     var accessToken = localStorage.getItem("accessToken")
     var user = localStorage.getItem("user")
     var playing_time = localStorage.getItem("playing_time")
-
-    if (playing_time != null) {playing_time = JSON.parse(playing_time)}
-    console.log("l", playing_time)
-
+    
     if (accessToken != null) {
         usernameBox.textContent = user.username
         askRegisterMessage.style.display = "none"
