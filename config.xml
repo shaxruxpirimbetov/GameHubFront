@@ -20,5 +20,7 @@
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/splash.png" />
     <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
   </platform>
+  
+  <plugin name="cordova-plugin-inappbrowser" source="npm" />
 
 </widget>

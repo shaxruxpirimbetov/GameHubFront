@@ -37,7 +37,13 @@
     if (game == null) {location.replace("index.html")}
     
     var path = `${baseUrl}/media/games/${game.run_path}`
-    gameBox.src = path
+    // gameBox.src = path
+    
+    cordova.InAppBrowser.open(
+        path,
+        "_blank",
+        "location=no,zoom=no,fullscreen=yes"
+    );
 
     setInterval(() => {
         // alert(":")
