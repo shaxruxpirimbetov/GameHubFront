@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Игры прямо в браузере</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #fdbb2d;
+        }
+        
+        .nav {
+            display: flex;
+            list-style: none;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            padding: 5px;
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .nav::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-item {
+            padding: 10px 20px;
+            border-radius: 50px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item.active {
+            background: rgba(253, 187, 45, 0.9);
+            color: #1a2a6c;
+            font-weight: bold;
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 10px 15px;
+            align-items: center;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .search-bar i {
+            color: #fdbb2d;
+            font-size: 18px;
+        }
+        
+        .section-title {
+            margin: 20px 0 15px;
+            font-size: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: #fdbb2d;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .game-card:active {
+            transform: scale(0.97);
+        }
+        
+        .game-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to right, #3494E6, #EC6EAD);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .game-info {
+            padding: 12px;
+        }
+        
+        .game-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 42, 108, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+        
+        .nav-btn.active {
+            color: #fdbb2d;
+        }
+        
+        .nav-btn i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .profile-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #3494E6, #EC6EAD);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .stat {
+            padding: 15px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fdbb2d;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .btn {
+            background: #fdbb2d;
+            color: #1a2a6c;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            width: 100%;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .btn:active {
+            opacity: 0.8;
+        }
+        
+        .dev-game {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .dev-game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .dev-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .dev-stat {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .dev-stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fdbb2d;
+        }
+        
+        .dev-stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <span>GameHub</span>
+            </div>
+            <i class="fas fa-bell"></i>
+        </header>
+        
+        <ul class="nav">
+            <li class="nav-item active" data-page="home">Все игры</li>
+            <li class="nav-item" data-page="popular">Популярные</li>
+            <li class="nav-item" data-page="new">Новые</li>
+            <li class="nav-item" data-page="favorites">Избранное</li>
+        </ul>
+        
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Поиск игр...">
+        </div>
+        
+        <!-- Главная страница -->
+        <div class="page active" id="home">
+            <div class="section-title">
+                <span>Рекомендуем для вас</span>
+                <span class="view-all">Все</span>
+            </div>
+            
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-chess-queen"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Шахматы</div>
+                        <div class="game-stats">
+                            <span>4.5 ★</span>
+                            <span>125K игр</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Пазлы</div>
+                        <div class="game-stats">
+                            <span>4.7 ★</span>
+                            <span>89K игр</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-dice"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Кости</div>
+                        <div class="game-stats">
+                            <span>4.2 ★</span>
+                            <span>56K игр</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-chess"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Шашки</div>
+                        <div class="game-stats">
+                            <span>4.4 ★</span>
+                            <span>72K игр</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <span>Популярные игры</span>
+                <span class="view-all">Все</span>
+            </div>
+            
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Судоку</div>
+                        <div class="game-stats">
+                            <span>4.8 ★</span>
+                            <span>205K игр</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-card"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Пасьянс</div>
+                        <div class="game-stats">
+                            <span>4.6 ★</span>
+                            <span>152K игр</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Страница поиска -->
+        <div class="page" id="search">
+            <div class="section-title">Результаты поиска</div>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-chess-queen"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Шахматы</div>
+                        <div class="game-stats">
+                            <span>4.5 ★</span>
+                            <span>125K игр</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <i class="fas fa-chess"></i>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Шашки</div>
+                        <div class="game-stats">
+                            <span>4.4 ★</span>
+                            <span>72K игр</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Страница профиля -->
+        <div class="page" id="profile">
+            <div class="profile-header">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2>Гость</h2>
+                <p>Войдите, чтобы сохранять прогресс</p>
+            </div>
+            
+            <button class="btn">
+                <i class="fas fa-sign-in-alt"></i> Войти
+            </button>
+            
+            <div class="profile-stats">
+                <div class="stat">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Игр сыграно</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Друзей</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Дней</div>
+                </div>
+            </div>
+            
+            <div class="section-title">Мои достижения</div>
+            <p style="text-align: center; margin: 20px 0; opacity: 0.7;">
+                Войдите, чтобы отслеживать достижения
+            </p>
+        </div>
+        
+        <!-- Страница разработчика -->
+        <div class="page" id="dev">
+            <div class="section-title">
+                <span>Панель разработчика</span>
+            </div>
+            
+            <button class="btn">
+                <i class="fas fa-plus"></i> Добавить игру
+            </button>
+            
+            <div class="dev-game">
+                <div class="dev-game-header">
+                    <h3>Шахматы</h3>
+                    <span>4.5 ★</span>
+                </div>
+                <p>Классическая игра в шахматы</p>
+                
+                <div class="dev-stats">
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">125,478</div>
+                        <div class="dev-stat-label">Всего игр</div>
+                    </div>
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">24,891</div>
+                        <div class="dev-stat-label">Игроков</div>
+                    </div>
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">4.5</div>
+                        <div class="dev-stat-label">Рейтинг</div>
+                    </div>
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">1,204</div>
+                        <div class="dev-stat-label">Просмотров</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dev-game">
+                <div class="dev-game-header">
+                    <h3>Пазлы</h3>
+                    <span>4.7 ★</span>
+                </div>
+                <p>Собери картинку из частей</p>
+                
+                <div class="dev-stats">
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">89,351</div>
+                        <div class="dev-stat-label">Всего игр</div>
+                    </div>
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">18,642</div>
+                        <div class="dev-stat-label">Игроков</div>
+                    </div>
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">4.7</div>
+                        <div class="dev-stat-label">Рейтинг</div>
+                    </div>
+                    <div class="dev-stat">
+                        <div class="dev-stat-value">987</div>
+                        <div class="dev-stat-label">Просмотров</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Нижняя навигация -->
+    <div class="bottom-nav">
+        <div class="nav-btn active" data-page="home">
+            <i class="fas fa-home"></i>
+            <span>Главная</span>
+        </div>
+        <div class="nav-btn" data-page="search">
+            <i class="fas fa-search"></i>
+            <span>Поиск</span>
+        </div>
+        <div class="nav-btn" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Профиль</span>
+        </div>
+        <div class="nav-btn" data-page="dev">
+            <i class="fas fa-code"></i>
+            <span>Разработчик</span>
+        </div>
+    </div>
+
+    <script>
+        // Переключение между страницами
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Убираем активный класс у всех кнопок
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                // Добавляем активный класс к текущей кнопке
+                this.classList.add('active');
+                
+                // Скрываем все страницы
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Показываем нужную страницу
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+        
+        // Переключение между категориями
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Эффект нажатия на карточку игры
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    alert('Запуск игры...');
+                }, 200);
+            });
+        });
+        
+        // Обработка поиска
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                // Переходим на страницу поиска
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                document.querySelector('.nav-btn[data-page="search"]').classList.add('active');
+                
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById('search').classList.add('active');
+                
+                // Здесь мог бы быть реальный поиск
+            }
+        });
+    </script>
+</body>
+</html>

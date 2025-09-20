@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-gamepad"></i>
+            <span>GameHub</span>
+        </div>
+    </header>
+    <main>
+        <div class="form">
+            <h2 class="title">Введите данные</h2>
+            <div class="input-box">
+                <i class="fas fa-file"></i>
+                <input type="file" id="file">
+            </div>
+            <div class="input-box">
+                <i class="fas fa-image"></i>
+                <input type="file" id="logo" accept="images/*">
+            </div>
+            <div class="input-box">
+                <i class="fas fa-images"></i>
+                <input type="file" id="images" multiple>
+            </div>
+            <div class="input-box">
+                <i class="fas fa-play"></i>
+                <input type="text" id="run_file" placeholder="Run file path">
+            </div>
+            <div class="input-box">
+                <i class="fas fa-t"></i>
+                <input type="text" id="title" placeholder="Title">
+            </div>
+            <div class="input-box">
+                <i class="fas fa-d"></i>
+                <input type="text" id="description" placeholder="Description">
+            </div>
+            <div class="ask-in-form">Do you have an account?</div>
+            <div class="submit-button" id="submitButton">Register</div>
+        </div>
+    </main>
+
+<script src="js/config.js"></script>
+<script src="js/script.js"></script>
+<script>
+    var accessToken = localStorage.getItem("accessToken")
+    var inputZip = document.getElementById("file")
+    var inputLogo = document.getElementById("logo")
+    var inputImages = document.getElementById("images")
+    var inputRunFile = document.getElementById("run_file")
+    var inputTitle = document.getElementById("title")
+    var inputDescription = document.getElementById("description")
+    var submitButton = document.getElementById("submitButton")
+
+    if (accessToken == null) {location.replace("auth/login.html")}
+
+    submitButton.addEventListener("click", () => {
+        // if (inputTitle.value.length < 3) {alert("Title so verify"); return;}
+
+        var formData = new FormData();
+        formData.append("title", inputTitle.value)
+        formData.append("description", inputDescription.value)
+        formData.append("run_file", inputRunFile.value)
+        formData.append("file", inputZip.files[0])
+        formData.append("logo", inputLogo.files[0])
+
+        console.log(inputImages.files)
+        
+        for (let image of inputImages.files) {formData.append("images", image)}
+
+        fetch(baseUrl+"/games/", {
+            method: "POST",
+            headers: {"authorization": `Bearer ${accessToken}`},
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status == false) {alert(data.message)}
+            else {history.back()}
+        })
+
+    })
+
+
+</script>
+</body>
+</html>

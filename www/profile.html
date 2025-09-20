@@ -1,0 +1,119 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-gamepad"></i>
+            <span>GameHub</span>
+        </div>
+    </header>
+    
+    <div class="user-info-container">
+        <div class="image">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="username" id="username">Гость</div>
+        <div class="info" id="ask-register-msg">Войдите, чтобы сохранять прогресс</div>
+    </div>
+
+    <div class="ask-register-button" onclick="location.assign('auth/login.html')">
+        <i class="fas fa-right-from-bracket"></i>
+        <div class="text">Войти</div>
+    </div>
+    
+    <div class="user-play-datas">
+        <div class="info">
+            <div class="quantity">0</div>
+            <div class="info-title">Играно игр</div>
+        </div>
+        <div class="info">
+            <div class="quantity">0</div>
+            <div class="info-title">Играно игр</div>
+        </div>
+        <div class="info">
+            <div class="quantity">0</div>
+            <div class="info-title">Играно игр</div>
+        </div>
+    </div>
+
+    <div class="profile-menu" id="profile-menu">
+        <div class="menu-box" onclick="location.assign('publish-game.html')">
+            <i class="fas fa-upload"></i>
+            <div class="menu-title">Публиковать игру</div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-box" onclick="location.assign('my-games.html')">
+            <i class="fas fa-gamepad"></i>
+            <div class="menu-title">Мой игры</div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-box">
+            <i class="fas fa-code"></i>
+            <div class="menu-title">Стать разработчиком</div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-box" id="logoutButton">
+            <i class="fas fa-right-from-bracket"></i>
+            <div class="menu-title">Выйти</div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-page" onclick="location.replace('index.html')">
+            <i class="fas fa-home"></i>
+            <div class="page-title">Главная</div>
+        </div>
+        <div class="footer-page" onclick="location.replace('search.html')">
+            <i class="fas fa-search"></i>
+            <div class="page-title">Поиск</div>
+        </div>
+        <div class="footer-page" onclick="location.replace('profile.html')">
+            <i class="fas fa-user"></i>
+            <div class="page-title">Профиль</div>
+        </div>
+    </footer>
+    <br><br><br><br>
+<script src="js/config.js"></script>
+<script src="js/script.js"></script>
+<script>
+    var usernameBox = document.getElementById("username")
+    var profileMenuBox = document.getElementById("profile-menu")
+    var askRegisterMessage = document.getElementById("ask-register-msg")
+    var askRegisterButton = document.querySelector(".ask-register-button")
+    var logoutButton = document.getElementById("logoutButton")
+
+    var accessToken = localStorage.getItem("accessToken")
+    var user = localStorage.getItem("user")
+    var playing_time = localStorage.getItem("playing_time")
+
+    if (playing_time != null) {playing_time = JSON.parse(playing_time)}
+    console.log("l", playing_time)
+
+    if (accessToken != null) {
+        usernameBox.textContent = user.username
+        askRegisterMessage.style.display = "none"
+        askRegisterButton.style.display = "none"
+    } else {
+        profileMenuBox.style.display = "none"
+    }
+
+    logoutButton.addEventListener("click", () => {
+        var sure = confirm("You are sure?")
+        if (sure) {
+            localStorage.removeItem("user")
+            localStorage.removeItem("accessToken")
+            location.assign("auth/login.html")
+        }
+    })
+
+</script>
+</body>
+</html>

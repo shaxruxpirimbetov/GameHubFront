@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
+
+/*
+:root {
+    --color-primary: #2c3e50;
+    --color-primary-dark: #1a2530;
+    --color-accent: #3498db;
+    --color-card-bg: #34495e;
+    
+    --color-text-primary: #ecf0f1;
+    --color-text-secondary: rgba(255, 255, 255, 0.6);
+    --color-text-tertiary: rgba(255, 255, 255, 0.7);
+    
+    --color-nav-bg: rgba(44, 62, 80, 0.7);
+    --color-card-surface: rgba(255, 255, 255, 0.08);
+    --color-search-bg: rgba(255, 255, 255, 0.1);
+    --color-stat-bg: rgba(0, 0, 0, 0.2);
+    
+    --color-border: rgba(255, 255, 255, 0.1);
+    
+    --color-bottom-nav: rgba(44, 62, 80, 0.95);
+    --color-nav-inactive: rgba(255, 255, 255, 0.6);
+    
+    --color-shadow: rgba(0, 0, 0, 0.2);
+}
+*/
+
+:root {
+    --first-color: #2B3C4E;
+    --second-color: #2D3E50;
+    --third-color: #3598DB;
+    --fourth-color: #1D2936;
+    --fifth-color: #3D4D5C;
+}
+
+* {
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    /*
+    font-family: "Noto Sans", sans-serif;
+*/
+}
+
+body {
+    background: var(--first-color);
+    color: white;
+}
+
+header {
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: .25em;
+}
+
+header i {
+    font-size: 1.5em;
+    color: var(--third-color);
+}
+
+header .logo span {
+    font-size: 1.5em;
+    font-weight: 750;
+}
+
+.games-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: .5em;
+}
+
+.games-list img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.games-list .game {
+    border: 2px solid var(--fifth-color);
+    overflow: hidden;
+    border-radius: .5em;
+}
+
+.games-list .game .game-title {
+    background: var(--fourth-color);
+    padding: .5em;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-box {
+    background: var(--fifth-color);
+    margin: .5em;
+    padding: .75em;
+    border-radius: 1em;
+}
+
+.search-input-box {
+    display: flex;
+    align-items: center;
+    gap: .35em;
+}
+
+.search-box i {font-size: 1.25em}
+.search-box input {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.05em;
+    font-weight: 550;
+}
+
+.game-view-container {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+
+.game-view-container .info {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-weight: 550;
+}
+
+.game-view-container .info .title {font-size: 1.15em}
+
+.game-view-container .info .logo {
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 1em;
+    /* background: red; */
+}
+
+.game-view-container .images {
+    display: flex;
+    overflow: auto;
+    gap: .5em;
+    border-radius: 1em;
+}
+.game-view-container .images .game-image {
+    height: 300px;
+    border-radius: 1em;
+}
+
+.game-view-container .play-button {
+    background: var(--third-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .75em;
+    border-radius: .5em;
+    font-size: 1.25em;
+    font-weight: 650;
+    box-shadow: 0 .25em 0 #357BAD;
+    transition: all .15s;
+    gap: .25em;
+}
+
+.game-view-container .play-button:active {
+    transform: translate(0, .25em);
+    box-shadow: 0 0 0 #357BAD;
+}
+
+.game-view-container .description {
+    background: var(--second-color);
+    padding: .5em .25em;
+    border-radius: 1em;
+}
+
+.user-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    gap: .25em;
+}
+
+.user-info-container .image {
+    background: var(--fourth-color);
+    height: 125px;
+    width: 125px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info-container .image i {
+    font-size: 50px;
+    color: var(--third-color);
+}
+
+.user-info-container .username {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.user-play-datas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+}
+
+.user-play-datas .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-play-datas .info .quantity {
+    font-size: 1.25em;
+    color: var(--third-color)
+}
+
+.user-play-datas .info .info-title {font-size: 1em; font-weight: 550;}
+
+.ask-register-button {
+    background: var(--third-color);
+    width: 80%;
+    margin: 1em auto;
+    padding: .75em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    border-radius: 2em;
+}
+
+.form {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    background: var(--fourth-color);
+    padding: 1em;
+    border-radius: 1em;
+    text-align: center;
+    box-shadow: 0 0 .5em var(--fifth-color);
+    width: 90%;
+}
+
+.input-box {
+    display: flex;
+    gap: .5em;
+    padding: 0 1em;
+    align-items: center;
+}
+
+.input-box input {
+    background: none;
+    border: none;
+    font-size: 1.25em;
+    width: 100%;
+    color: white;
+}
+
+.form .ask-in-form {
+    text-align: end;
+    font-weight: 650;
+}
+
+.form .submit-button {
+    background: var(--second-color);
+    padding: .5em;
+    border-radius: 1em;
+    font-weight: 650;
+}
+
+.profile-menu {
+    background: var(--fifth-color);
+    margin: 1em;
+    padding: .5em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-menu .menu-box {
+    display: flex;
+    padding: .5em;
+    gap: .5em;
+}
+
+.profile-menu .menu-box .menu-title {
+    width: 100%;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: var(--second-color);
+    padding: .5em;
+    border-radius: 1em 1em 0 0;
+    box-shadow: 0 0 .5em var(--fourth-color);
+}
+
+.footer-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .25em;
+}
+
+.footer-page i {font-size: 1.25em}

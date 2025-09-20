@@ -1,0 +1,75 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-gamepad"></i>
+            <span>GameHub</span>
+        </div>
+    </header>
+    
+    <div class="games-list">
+        <!--
+        <div class="game" onclick="location.assign('game-view.html')">
+            <img src="img/game.jpg" alt="">
+            <div class="game-title">Go Down</div>
+        </div>
+        <div class="game" onclick="location.replace('game-view.html')">
+            <img src="img/game.jpg" alt="">
+            <div class="game-title">GTA VI</div>
+        </div>
+        <div class="game" onclick="location.replace('game-view.html')">
+            <img src="img/game.jpg" alt="">
+            <div class="game-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum porro autem officiis dolorum, explicabo ab eligendi laborum, ullam rerum eveniet temporibus repudiandae voluptatibus minus possimus. Facilis excepturi, autem quo nostrum.</div>
+        </div>
+        <div class="game" onclick="location.replace('game-view.html')">
+            <img src="img/game.jpg" alt="">
+            <div class="game-title">GTA VI</div>
+        </div>
+        -->
+    </div>
+    
+    <footer>
+        <div class="footer-page" onclick="location.replace('index.html')">
+            <i class="fas fa-home"></i>
+            <div class="page-title">Главная</div>
+        </div>
+        <div class="footer-page" onclick="location.replace('search.html')">
+            <i class="fas fa-search"></i>
+            <div class="page-title">Поиск</div>
+        </div>
+        <div class="footer-page" onclick="location.replace('profile.html')">
+            <i class="fas fa-user"></i>
+            <div class="page-title">Профиль</div>
+        </div>
+    </footer>
+    <br><br><br><br>
+
+<script src="js/config.js"></script>
+<script src="js/script.js"></script>
+<script>
+    var gamesList = document.querySelector(".games-list")
+    var games = sessionStorage.getItem("games")
+    
+    if (games == null) {
+        fetch(baseUrl+"/games/")
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            addGameToGamesList(data)
+            // sessionStorage.setItem("games", JSON.stringify(data))
+        })
+    } else {addGameToGamesList(JSON.parse(games))}
+    
+    window.addEventListener("dblclick", () => {location.replace("layouts/layout2.html")})
+
+</script>
+</body>
+</html>

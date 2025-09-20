@@ -1,0 +1,70 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="input-box">
+        <h3>Game zip</h3>
+        <input type="file" id="zip">
+    </div>
+    <div class="input-box">
+        <h3>Run File</h3>
+        <input type="text" id="runFile">
+    </div>
+    <div class="input-box">
+        <h3>Logo</h3>
+        <input type="file" id="logo">
+    </div>
+    <div class="input-box">
+        <h3>Images</h3>
+        <input type="file" id="images" multiple>
+    </div>
+    <div class="input-box">
+        <h3>Game Title</h3>
+        <input type="text" id="title">
+    </div>
+    <div class="input-box">
+        <h3>Description</h3>
+        <input type="text" id="description">
+    </div>
+    <button>Submit</button>
+
+<script src="../js/config.js"></script>
+<script>
+    var title = document.getElementById("title")
+    var zip = document.getElementById("zip")
+    var runFile = document.getElementById("runFile")
+    var images = document.getElementById("images")
+    var description = document.getElementById("description")
+    var logo = document.getElementById("logo")
+    var btn = document.querySelector("button")
+    
+    btn.addEventListener("click", () => {
+        var formData = new FormData();
+        console.log(images.files)
+        formData.append("logo", logo.files[0])
+        formData.append("title", title.value)
+        formData.append("description", description.value)
+        formData.append("file", zip.files[0])
+        formData.append("run_file", runFile.value)
+        // images.files.forEach((image) => {formData.append("images", image)})
+        for (let image of images.files) {
+            formData.append("images", image)
+        }
+        fetch(baseUrl+"/games/", {
+            method: "POST",
+            headers: {"authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYwNTk1NTQ4LCJpYXQiOjE3NTgwMDM1NDgsImp0aSI6ImQ0YjM3MzkyMTljMDQ2N2ViOTNlYjc2MWI1OGE5NjVjIiwidXNlcl9pZCI6IjEifQ.myA262yjoxH-St-4pThc1cd2fG7kdO0MAhNnsM4d5JI`},
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+    })
+    
+</script>
+</body>
+</html>
