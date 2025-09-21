@@ -18,7 +18,7 @@
     <div class="search-box">
         <div class="search-input-box">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search app...">
+            <input type="text" placeholder="Search app..." id="inputQuery">
         </div>
     </div>
     
@@ -50,7 +50,19 @@
 <script src="js/config.js"></script>
 <script src="js/script.js"></script>
 <script>
+    var inputQuery = document.getElementById("inputQuery")
     
+    inputQuery.addEventListener("input", () => {
+        setTimeout(() => {
+            var query = inputQuery.value
+            fetch(baseUrl+"/games?q="+query)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(err => {console.log(err)})
+        }, 300)
+    })
 </script>
 </body>
 </html>
