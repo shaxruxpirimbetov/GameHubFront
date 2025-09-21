@@ -110,6 +110,25 @@
             location.assign("auth/login.html")
         }
     })
+    
+    fetch(baseUrl+"/user/check-token/", {
+        method: "GET",
+        headers: {"Content-Type": "application/json", "authorization": `Bearer ${accessToken}`}
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.detail) {
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("user")
+            location.replace("auth/login.html")
+        }
+        else {console.log("Success: ", data)}
+    })
+    .catch(err => {
+        localStorage.removeItem("accessToken")
+        localStorage.removeItem("user")
+        location.replace("auth/login.html")
+    })
 
 </script>
 </body>
