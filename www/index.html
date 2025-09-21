@@ -66,6 +66,7 @@
             addGameToGamesList(data)
             // sessionStorage.setItem("games", JSON.stringify(data))
         })
+        .catch(err => {alert(err.message)})
     } else {addGameToGamesList(JSON.parse(games))}
     
     window.addEventListener("dblclick", () => {location.replace("layouts/layout2.html")})
